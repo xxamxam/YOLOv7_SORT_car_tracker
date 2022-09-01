@@ -12,9 +12,7 @@ SORT https://github.com/abewley/sort
 
 -> sort --- трекер SORT
 
--> pafy_fix --- исправленный pafy в связи с отключением дизлайков на YouTube (https://github.com/mps-youtube/pafy )
-
- нужен для чтения видеопотока с YouTube
+-> pafy_fix --- исправленный pafy в связи с отключением дизлайков на YouTube (https://github.com/mps-youtube/pafy ), нужен для чтения видеопотока с YouTube
 
 -> detection_helpers.py --- наработка над yolov7 для удобства вызова
 
