@@ -2,7 +2,8 @@ import threading
 import queue
 from time import sleep
 from tkinter.tix import Tree
-
+import sys
+import select
 class Thread_item(threading.Thread):
     """
     класс объекта потока.
@@ -13,14 +14,14 @@ class Thread_item(threading.Thread):
     возвращать None после того как вернула все элементы
     - input и output - очереди queue.Queue()
     """
-    def __init__(self, func, input, output):
-        super().__init__()
+    def __init__(self, func, input, output, daemon = True):
+        super(Thread_item, self).__init__(daemon = daemon)
         self.func = func
         self.input = input
         self.output = output
         self.work = True    
-
         self._frames_ = None
+
     def run(self):
         if self.input is not None and self.output is not None:
             while True:
@@ -69,14 +70,26 @@ class Thread_convey():
     def start(self, join: bool = True):
         n = len(self.funcs)
         self.queue = [None] + [queue.Queue(maxsize = Thread_convey.QUEUE_SIZE) for i in range(n - 1)] + [None]
-        self.threads = [Thread_item(self.funcs[i], self.queue[i], self.queue[i + 1]) for i in range(n)]
+        self.threads = [Thread_item(self.funcs[i], self.queue[i], self.queue[i + 1], daemon = True) for i in range(n)]
         for thr in self.threads:
             thr.start()
 
-        sleep(60)
 
-        self.threads[0].stop()
-        self.queue[1].put(None)        
+        def hearEnter():
+            i, o, e = select.select([sys.stdin], [], [], 1)
+            for s in i:
+                if s == sys.stdin:
+                    return True
+            return False
+
+# функция выхода из трекера
+        while True:
+            if hearEnter():
+                self.threads[0].stop()
+            if not self.threads[0].is_alive():
+                break
+
+
         if join:
             for thr in self.threads:
                 thr.join()

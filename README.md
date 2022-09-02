@@ -1,6 +1,10 @@
 # YOLOv7_SORT_car_tracker
 Здесь представлен код реализации трекера машин с  YOLOv7 + SORT.
 
+Для ознакомления с функционалом посморите Example.ipynb или test.py
+
+Для выхода из программы во время трекинга нажмите Enter (в ipynb не работает, для остановки можно только убить ядро)
+
 YOLOv7 https://github.com/WongKinYiu/yolov7
 
 SORT https://github.com/abewley/sort

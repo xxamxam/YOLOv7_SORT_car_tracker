@@ -1,3 +1,5 @@
 bin
 env
 *__pycache__*
+traced_model.pt
+curses.py
